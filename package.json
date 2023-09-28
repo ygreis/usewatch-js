@@ -1,0 +1,35 @@
+{
+  "name": "usewatch-js",
+  "version": "0.0.1",
+  "description": "State management for local and global variables in javascript",
+  "main": "lib/es5/index.js",
+  "module": "lib/es6/index.js",
+  "scripts": {
+    "compile": "rm -rf dist/lib && tsc && tsc --build tsconfig.es5.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "parcel": "^2.5.0",
+    "typescript": "^4.9.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ygreis/usewatch-js.git"
+  },
+  "keywords": [
+    "usewatch-js",
+    "state.js",
+    "watch.js",
+    "state"
+  ],
+  "author": "Yallison Gabriel Reis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ygreis/usewatch-js/issues"
+  },
+  "homepage": "https://github.com/ygreis/usewatch-js#readme",
+  "engines": {
+    "npm": ">=4.0.0",
+    "node": ">=8.0.0"
+  }
+}
