@@ -17,7 +17,11 @@ npm i usewatch-js
 
 ```
 
-With [UNPKG](https://unpkg.com/usewatch-js)
+With [UNPKG](https://unpkg.com/usewatch-js/dist/usewatch-js.min.js), add the script below to your page
+
+```html 
+<script src="https://unpkg.com/usewatch-js/dist/usewatch-js.min.js"></script>
+```
 
 [File minified](https://raw.githubusercontent.com/ygreis/usewatch-js/master/dist/usewatch-js.min.js)
 
