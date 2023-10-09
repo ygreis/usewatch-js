@@ -1,11 +1,21 @@
 {
   "name": "usewatch-js",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "State management for local and global variables in javascript",
-  "main": "lib/es5/index.js",
-  "module": "lib/es6/index.js",
+  "main": "./dist/node/index.js",
+  "types": "./dist/node/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/node/index.d.ts",
+      "import": "./dist/node/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
-    "compile": "rm -rf dist/lib && tsc && tsc --build tsconfig.es5.json && webpack --mode=production",
+    "compile": "rm -rf dist/lib && tsc && webpack --mode=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

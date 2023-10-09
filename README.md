@@ -3,15 +3,28 @@ State management for local and global variables in javascript
 
 ## Features
 
-* Local states
-* Global states
-* Observer of local and global states
+* [Local states](#local-states)
+* [Global states](#global-states)
+* [Observer of local and global states](#usewatch-properties)
 
 ## Install
 
+With [NPM](https://www.npmjs.com/package/usewatch-js)
+
+``` 
+
+npm i usewatch-js
+
+```
+
+With [UNPKG](https://unpkg.com/usewatch-js)
+
+[File minified](https://raw.githubusercontent.com/ygreis/usewatch-js/master/dist/usewatch-js.min.js)
+
+
 ## Usage
 
-#### Local state
+#### <a name="local-states">Local state</a>
 
 ```js
 
@@ -32,7 +45,7 @@ count.value = 3;
 
 ```
 
-#### Global state
+#### <a name="global-states">Global state</a>
 
 ```js
 // Create a example file (example.js)
@@ -74,7 +87,7 @@ useWatch(() => {
 
 ```
 
-#### useWatch properties
+#### <a name="usewatch-properties">useWatch properties</a>
 
 ```js
 
