@@ -1,143 +1,183 @@
 # usewatch-js
-State management for local and global variables in javascript
 
-## Features
+Minimal reactive state for modern JavaScript.
 
-* [Local states](#local-states)
-* [Global states](#global-states)
-* [Observer of local and global states](#usewatch-properties)
+Small, framework-free state primitives for local state, shared contexts and optional cross-tab sync.
 
-## Install
+## Index
 
-With [NPM](https://www.npmjs.com/package/usewatch-js)
+- [Overview](#overview)
+- [Installation](#installation)
+- [Basic Usage](#basic-usage)
+- [Local State](#local-state)
+- [Named State](#named-state)
+- [createContext](#createcontext)
+- [Sync Between Tabs](#sync-between-tabs)
+- [API Overview](#api-overview)
+- [Contributing](#contributing)
+- [License](#license)
 
-``` 
+## Overview
 
-npm i usewatch-js
+`usewatch-js` is a small reactive state library for vanilla JavaScript and TypeScript.
 
+- No DOM bindings
+- No framework adapters
+- No official React/Vue wrappers
+- Small public API
+- Optional `BroadcastChannel` sync for named states
+
+This repository only contains the library. The full documentation site will live in a separate `dev-hub` project.
+
+## Installation
+
+<details open>
+<summary><strong>npm</strong></summary>
+
+```bash
+npm install usewatch-js
 ```
 
-With [UNPKG](https://unpkg.com/usewatch-js/dist/usewatch-js.min.js), add the script below to your page
+</details>
 
-```html 
+<details>
+<summary><strong>CDN global</strong></summary>
+
+```html
 <script src="https://unpkg.com/usewatch-js/dist/usewatch-js.min.js"></script>
+<script>
+  const count = usewatchJs.setState(0);
+
+  usewatchJs.useWatch((state) => {
+    console.log(state.value);
+  }, [count]);
+
+  count.value += 1;
+</script>
 ```
 
-[File minified](https://raw.githubusercontent.com/ygreis/usewatch-js/master/dist/usewatch-js.min.js)
+</details>
 
+<details>
+<summary><strong>CDN ESM</strong></summary>
 
-## Usage
+```html
+<script type="module">
+  import { setState, useWatch } from "https://unpkg.com/usewatch-js/dist/index.js";
 
-#### <a name="local-states">Local state</a>
+  const count = setState(0);
 
-```js
+  useWatch((state) => {
+    console.log(state.value);
+  }, [count]);
 
-import {setState, useWatch} from 'usewatch-js';
+  count.value += 1;
+</script>
+```
+
+</details>
+
+## Basic Usage
+
+```ts
+import { setState, useWatch } from "usewatch-js";
 
 const count = setState(0);
 
-// When using useWatch it triggers the first time taking the initial value
-useWatch(() => {
-    console.log('count', count.value);
-}, [count])
+useWatch((state) => {
+  console.log("count:", state.value);
+}, [count]);
+
+count.value += 1;
+```
+
+```ts
+import { createContext } from "usewatch-js";
+
+const app = createContext();
+const theme = app.useState("theme", "dark");
+
+app.useWatch((state) => {
+  console.log("theme:", state.value);
+}, [theme]);
+```
+
+## Local State
+
+Use `setState(value)` for a local anonymous state.
+
+```ts
+import { setState, useWatch } from "usewatch-js";
+
+const count = setState(0);
+
+useWatch((state) => {
+  console.log(state.value);
+}, [count]);
 
 count.value++;
-// output useWatch = count 1;
-
-count.value = 3;
-// output useWatch = count 3;
-
 ```
 
-#### <a name="global-states">Global state</a>
+## Named State
 
-```js
-// Create a example file (example.js)
+Use `useState(key, initialValue?)` when you want to create or recover a named state.
 
-import {setState, useWatch} from 'usewatch-js';
+```ts
+import { useState } from "usewatch-js";
 
-const data = setState('keyName', {
-  text: 'Example text'
+const user = useState("user", { name: "John" });
+
+user.value.name = "Jane";
+
+console.log(user.value.name);
+```
+
+## createContext
+
+Use `createContext()` to isolate a state registry and its watchers.
+
+```ts
+import { createContext } from "usewatch-js";
+
+const app = createContext();
+
+const count = app.setState(0);
+const theme = app.useState("theme", "dark");
+
+app.useWatch((countState, themeState) => {
+  console.log(countState.value, themeState.value);
+}, [count, theme]);
+```
+
+## Sync Between Tabs
+
+Named states can synchronize between tabs with `BroadcastChannel`.
+
+- Same origin only
+- No persistence
+- Good for lightweight tab-to-tab updates
+
+```ts
+import { useState } from "usewatch-js";
+
+const theme = useState("theme", "dark", {
+  syncTabs: true,
 });
 
-
-useWatch(() => {
-  console.log(data.text);
-}, [data])
-
-data.text = "Test 2";
-// output useWatch = Test 2
-
-
-/**
-* Now let's use the same state in another file
-* In the other file the usage looks like this
-*/
-
-// Example file (example-two.js)
-
-import {useState, useWatch} from 'usewatch-js';
-
-const data = useState('keyName');
-
-useWatch(() => {
-  console.log(`In file example-two.js = ${data.text}`);
-}, [data])
-
-// Here it will display in the console:
-
-// In file example-two.js = Example text
-// In file example-two.js = Test 2
-
+theme.value = "light";
 ```
 
-#### <a name="usewatch-properties">useWatch properties</a>
+## API Overview
 
-```js
+- `setState`: creates a local state or creates/updates a named state when used with a key.
+- `useState`: gets or creates a named state in the current context.
+- `useWatch`: subscribes to one or more states and returns an unsubscribe function.
+- `createContext`: creates an isolated state registry with its own `setState`, `useState` and `useWatch`.
 
-import {setState, useWatch} from 'usewatch-js';
+## Contributing
 
-const str = setState('Test');
-const anyNumber = setState(1);
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for setup, workflow and contribution guidelines.
 
-useWatch((strArg, numArg) => {
-    console.log('strArg', strArg);
-    console.log('numArg', numArg);
-}, [str, anyNumber])
+## License
 
-// output useWatch = 
-/*
-  // strArg
-  {
-    "value": 'Test',
-    "oldValue": 'Test',
-    "hasChanged": true
-  }
-
-  // numArg
-  {
-    "value": 1,
-    "oldValue": 1,
-    "hasChanged": true
-  }
-*/
-
-str.value = 'Test number two';
-
-/*
-  // strArg
-  {
-    "value": 'Test number two',
-    "oldValue": 'Test',
-    "hasChanged": true
-  }
-
-  // numArg
-  {
-    "value": 1,
-    "oldValue": 1,
-    "hasChanged": false
-  }
-*/
-
-```
+MIT. See [`LICENSE.md`](./LICENSE.md).
