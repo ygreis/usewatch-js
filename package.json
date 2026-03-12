@@ -71,7 +71,7 @@
   "bugs": {
     "url": "https://github.com/ygreis/usewatch-js/issues"
   },
-  "homepage": "https://github.com/ygreis/usewatch-js#readme",
+  "homepage": "https://ygreis.github.io/dev-hub/lib/usewatch-js",
   "publishConfig": {
     "access": "public"
   },
