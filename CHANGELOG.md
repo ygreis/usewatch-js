@@ -1,3 +1,5 @@
+## [1.1.0](https://github.com/ygreis/usewatch-js/compare/v1.0.0...v1.1.0) (2026-03-12)
+
 # 1.0.0 (2026-03-12)
 
 

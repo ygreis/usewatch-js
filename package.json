@@ -1,6 +1,6 @@
 {
   "name": "usewatch-js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Lightweight reactive state management for vanilla JavaScript with local, named and contextual stores, and optional cross-tab synchronization.",
   "type": "module",
   "main": "./dist/index.js",
